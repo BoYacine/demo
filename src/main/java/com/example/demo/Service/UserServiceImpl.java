@@ -3,6 +3,7 @@ package com.example.demo.Service;
 import com.example.demo.Dto.UserRequestDto;
 import com.example.demo.Dto.UserResponseDto;
 import com.example.demo.Entity.User;
+import com.example.demo.Errors.NotFoundExeption;
 import com.example.demo.Mapper.MapperUserImpl;
 import com.example.demo.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto findById(long id) {
       UserResponseDto userResponseDto =
-              mapper.EntityToDto(userRepository.findById(id).get());
+              mapper.EntityToDto(userRepository.findById(id).orElseThrow(() ->
+                      new NotFoundExeption("user not found")));
         return userResponseDto;
     }
 
