@@ -3,7 +3,8 @@ package com.example.demo.Service;
 import com.example.demo.Dto.UserRequestDto;
 import com.example.demo.Dto.UserResponseDto;
 import com.example.demo.Entity.User;
-import com.example.demo.Errors.NotFoundExeption;
+import com.example.demo.Errors.ConflictException;
+import com.example.demo.Errors.NotFoundException;
 import com.example.demo.Mapper.MapperUserImpl;
 import com.example.demo.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto save(UserRequestDto userRequestDto) {
+        if (userRepository.findByUserName(userRequestDto.getUserName())!=null){
+            throw new ConflictException("Another User with same UserName exist");
+        }
         User user=mapper.DtoToEntity(userRequestDto);
         userRepository.save(user);
         UserResponseDto userResponseDto=mapper.EntityToDto(user);
@@ -31,7 +35,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto findById(long id) {
       UserResponseDto userResponseDto =
               mapper.EntityToDto(userRepository.findById(id).orElseThrow(() ->
-                      new NotFoundExeption("user not found")));
+                      new NotFoundException("user not found")));
         return userResponseDto;
     }
 

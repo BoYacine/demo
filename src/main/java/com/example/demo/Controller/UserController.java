@@ -5,6 +5,7 @@ import com.example.demo.Dto.UserResponseDto;
 import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping("users")
-    public UserResponseDto save(@RequestBody  UserRequestDto userRequestDto) {
+    public UserResponseDto save(@Validated @RequestBody  UserRequestDto userRequestDto) {
         return userService.save(userRequestDto);
     }
     @GetMapping("users")

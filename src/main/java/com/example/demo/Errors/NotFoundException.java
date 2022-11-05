@@ -2,15 +2,16 @@ package com.example.demo.Errors;
 
 import org.springframework.http.HttpStatus;
 
-public class ConflictException extends BaseException {
+public class NotFoundException extends BaseException {
 
-    public ConflictException(String message) {
+
+    public NotFoundException(String message) {
         super(message);
     }
 
     @Override
     public HttpStatus getStatusCode() {
-        return HttpStatus.CONFLICT;
+        return HttpStatus.NOT_FOUND;
     }
 
 }
